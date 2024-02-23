@@ -15,6 +15,11 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   await connectMongoDB();
-  const products = await Product.find();
+  const products = await Product.find()
+    .populate({
+      path: "attribute",
+      populate: { path: "variant" },
+    })
+    .exec();
   return NextResponse.json({ products });
 }

@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-interface Category {
+interface Attribute {
   _id: string;
   name: string;
 }
@@ -15,16 +15,10 @@ interface ProductDocument extends Document {
   slug: string;
   quantity: number;
   name: string;
-  category: Category[];
   defaultCategory: string;
   isActive: boolean;
-  variants: any[]; // Define the type for variants as needed
+  attribute: Attribute[];
 }
-
-const categorySchema = new Schema<Category>({
-  _id: String,
-  name: { type: String, required: true },
-});
 
 const productSchema = new Schema<ProductDocument>(
   {
@@ -37,10 +31,9 @@ const productSchema = new Schema<ProductDocument>(
     slug: { type: String },
     quantity: { type: Number, required: true },
     name: { type: String, required: true },
-    category: { type: [categorySchema], required: true },
     defaultCategory: { type: String },
     isActive: { type: Boolean, required: true },
-    variants: { type: [] }, // Define the type for variants as needed
+    attribute: [{ type: Schema.Types.ObjectId, ref: "Attribute" }],
   },
   {
     timestamps: true,

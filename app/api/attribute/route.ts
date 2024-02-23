@@ -15,6 +15,6 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   await connectMongoDB();
-  const attribute = await Attribute.find();
-  return NextResponse.json({ attribute });
+  const attributes = await Attribute.find().populate('variant').exec();
+  return NextResponse.json({ attributes });
 }
